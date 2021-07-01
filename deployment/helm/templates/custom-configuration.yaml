@@ -36,6 +36,19 @@ spec:
           {{`"{{PLACEHOLDER}}"`}} : "1"
           memory: {{ .Values.custom.configuration.brokerPod.resources.memoryLimit }}
           cpu: {{ .Values.custom.configuration.brokerPod.resources.cpuLimit }}
+      command: [ "sh", "-c"]
+      args:
+      - while true; do
+          echo -en '\n';
+          echo 'Env variables:';
+          printenv;
+          sleep 10;
+        done;
+      env:
+      - name: DEMO_GREETING
+        value: "Hello from the environment"
+      - name: DEMO_FAREWELL
+        value: "Such a sweet sorrow"
     {{- with .Values.imagePullSecrets }}
     imagePullSecrets:
       {{- toYaml . | nindent 6 }}

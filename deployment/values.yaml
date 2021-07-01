@@ -1,0 +1,50 @@
+custom:
+  configuration:
+    # enabled defines whether to load a custom configuration
+    enabled: true
+    # name is the Kubernetes resource name that will be created for this
+    # custom configuration
+    name: akri-coap
+    # discoveryHandlerName is the name of the Discovery Handler the Configuration is using
+    discoveryHandlerName: coap
+    # brokerProperties is a map of properties that will be passed to any instances
+    # created as a result of applying this custom configuration
+    brokerProperties: {}
+    # capacity is the capacity for any instances created as a result of
+    # applying this custom configuration
+    capacity: 1
+    # discoveryDetails is the string of discovery details that is 
+    # passed to a Discovery Handler which can parse it into an expected format.
+    discoveryDetails:
+      multicast: false
+      multicastIpAddress: 224.0.1.187
+      staticIpAddresses:
+      - 192.168.1.126
+      queryFilter: {}
+      discoveryTimeoutSeconds: 10
+    brokerPod:
+      image:
+        # repository is the custom broker container reference
+        repository: gcr.io/kubernetes-e2e-test-images/dnsutils
+        # tag is the custom broker image tag
+        tag: "1.3"
+      resources:
+        memoryLimit: 24Mi
+        cpuLimit: 24m
+    brokerProperties:
+      test: okay
+      hello: kate
+
+  # discovery defines a set of values for a custom discovery handler DaemonSet
+  discovery: 
+    # enabled defines whether discovery handler pods will be deployed in a slim Agent scenario
+    enabled: true
+    # name is the Kubernetes resource name that will be created for this
+    # custom Discovery Handler DaemonSet
+    name: coap
+    image:
+      # repository is the custom broker container reference
+      repository: eu.gcr.io/fedra-301320/coap-discovery
+      # tag is the custom broker image tag
+      tag: v0.6.8-20210701_193232-arm64v8
+      pullPolicy: Always
